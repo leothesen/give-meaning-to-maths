@@ -1,0 +1,9 @@
+{
+  "name": "@repo/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": ["index.json"],
+  "dependencies": {
+    "eslint-config-next": "16.2.3"
+  }
+}
