@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { EB_Garamond, Courier_Prime } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 
@@ -36,7 +38,11 @@ export default function RootLayout({
       className={`${serif.variable} ${mono.variable}`}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </ThemeProvider>
       </body>
     </html>
   );
