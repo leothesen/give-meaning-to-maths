@@ -1,10 +1,8 @@
-import { FlatCompat } from "@eslint/eslintrc";
+import next from "eslint-config-next/core-web-vitals";
 
-const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
-
-/** Shared flat ESLint config for the monorepo (Next 16 / ESLint 9). */
+/** Shared flat ESLint config for the monorepo (Next 16 native flat config). */
 export default [
-  ...compat.extends("next/core-web-vitals"),
+  ...next,
   {
     ignores: [
       "**/.next/**",

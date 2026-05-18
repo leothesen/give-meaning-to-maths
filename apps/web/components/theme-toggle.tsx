@@ -13,6 +13,9 @@ const LABEL: Record<string, string> = {
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  // next-themes can only resolve the active theme on the client; we render a
+  // stable label until mounted to avoid an SSR/client hydration mismatch.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   const current = mounted ? (theme ?? "system") : "system";
