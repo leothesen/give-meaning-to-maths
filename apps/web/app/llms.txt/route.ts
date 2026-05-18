@@ -6,7 +6,7 @@ export function GET() {
   const lines: string[] = [];
   lines.push(`# ${BOOK.title}`);
   lines.push("");
-  lines.push(`> ${BOOK.subtitle} — a book by ${BOOK.author}.`);
+  lines.push(`> ${BOOK.subtitle} — a book by ${BOOK.author}`);
   lines.push("");
   lines.push("## About");
   lines.push(`- Title: ${BOOK.title}`);
