@@ -45,6 +45,7 @@ export default function About() {
                   alt="Pen-and-ink drawing of P. B."
                   width={320}
                   height={390}
+                  priority
                   className="book-img block w-full grayscale contrast-[1.05]"
                 />
               </div>
