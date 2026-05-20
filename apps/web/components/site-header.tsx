@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BOOK } from "@/content/book";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -19,7 +20,7 @@ export function SiteHeader() {
             Give Meaning to <em className="font-medium italic">Maths</em>
           </span>
           <span className="font-mono text-[10.5px] tracking-[.18em] uppercase text-ink3">
-            A book by P. B. · 2025
+            A book by {BOOK.author} · {BOOK.edition}
           </span>
         </Link>
         <nav className="flex font-mono text-[11.5px] tracking-[.14em] uppercase">

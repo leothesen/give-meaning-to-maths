@@ -53,6 +53,11 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
+        <div className="border-b border-rule p-[14px_22px] text-center font-serif text-[13.5px] italic leading-[1.45] text-ink3">
+          “Success usually comes to those who are too busy to be looking for
+          it.”{" "}
+          <span className="not-italic">— Henry David Thoreau</span>
+        </div>
         <div className="p-[10px_22px] font-mono text-[10.5px] tracking-[.14em] uppercase text-ink3">
           © {BOOK.year} {BOOK.author} · {BOOK.edition}
         </div>

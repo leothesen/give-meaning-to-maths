@@ -6,16 +6,25 @@ export function GET() {
   const lines: string[] = [];
   lines.push(`# ${BOOK.title}`);
   lines.push("");
-  lines.push(`> ${BOOK.subtitle} — a book by ${BOOK.author}`);
+  lines.push(`> ${BOOK.subtitle}`);
   lines.push("");
   lines.push("## About");
   lines.push(`- Title: ${BOOK.title}`);
-  lines.push(`- Author: ${BOOK.author}`);
-  lines.push(`- Year: ${BOOK.year}`);
-  lines.push("- Format: Web edition; every chapter is readable as a page.");
+  lines.push(`- Author: ${BOOK.authorFull}`);
+  lines.push(`- ISBN: ${BOOK.isbn}`);
+  lines.push(`- Copyright: © ${BOOK.year} Peter Bishop`);
+  lines.push(`- Edition: ${BOOK.edition}`);
+  lines.push(`- Print length: ${BOOK.pages} pages`);
+  lines.push(`- Structure: ${BOOK.sections} sections, ${BOOK.topics} topics`);
+  lines.push(
+    "- Format: web edition; every topic is a static HTML page intended to be readable by humans and language models alike.",
+  );
+  lines.push(
+    "- Permissions: students may freely receive a copy of any topic, provided no payment is required for copies handed out by a tutor or institute.",
+  );
   lines.push("");
   lines.push("## Pages");
-  lines.push("- [Home](/): overview");
+  lines.push("- [Home](/): overview and invitation");
   lines.push("- [Read](/read): chapter reader");
   lines.push("- [About](/about): the author");
   lines.push("");

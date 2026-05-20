@@ -10,11 +10,15 @@ export type Chapter = {
 export const BOOK = {
   title: "Give Meaning to Maths",
   author: "P. B.",
-  authorFull: "Peter Bruce — known to a generation of pupils as “PeeBee”",
-  subtitle: "Essays, problems, and a teacher's case for the beauty of numbers",
-  year: 2025,
-  pages: 224,
-  edition: "First edition",
+  authorFull: "Peter Bishop — known to a generation of pupils as “PeeBee”",
+  subtitle:
+    "An invitation to look for the meaning behind what you are investigating.",
+  year: 2021,
+  edition: "Revised Edition 2026",
+  isbn: "978-0-620-98225-2",
+  sections: 20,
+  topics: 181,
+  pages: 550,
   chapters: [
     { slug: "preface", number: "00", title: "Preface", blurb: "Why this book exists, and who it is for.", pages: "iii–viii", readingTime: "6 min" },
     { slug: "what-is-maths-for", number: "01", title: "What is mathematics for?", blurb: "Beyond the exam paper: a working answer for sceptical teenagers.", pages: "1–18", readingTime: "22 min" },

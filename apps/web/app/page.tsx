@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { DocTable, DocRow, DocCell } from "@/components/doc-table";
 import { CellLink } from "@/components/cell-link";
-import { Placeholder } from "@/components/placeholder";
+import { BOOK } from "@/content/book";
 
 const VOICE_COLS = ["For readers", "For teachers", "For former pupils"] as const;
 const VOICE_ROWS: ReadonlyArray<ReadonlyArray<[string, string, string]>> = [
@@ -31,22 +31,19 @@ export default function Home() {
           <DocRow>
             <DocCell className="p-[36px_30px] align-middle">
               <span className="mb-[6px] block font-mono text-[10px] font-semibold tracking-[.18em] uppercase">
-                A book of essays
+                An invitation
               </span>
               <h1 className="m-0 font-serif text-[clamp(46px,6.6vw,84px)] font-semibold leading-[.98] tracking-[-.018em]">
                 Give Meaning
                 <br />
                 to <em className="font-medium italic">Maths</em>.
               </h1>
-              <Placeholder
-                tag="Placeholder · Blurb"
-                className="mt-[18px] max-w-[32em]"
-              >
-                <p className="m-0">
-                  A short blurb for the book — one or two sentences describing
-                  what it is and who it is for.
-                </p>
-              </Placeholder>
+              <p className="mt-[18px] max-w-[32em] font-serif text-[17px] leading-[1.55] text-ink2">
+                <em>Give Meaning to Maths</em> invites you to look for the
+                meaning behind what you are investigating. You are invited to
+                ask <em>“why?”</em>, to develop your perception, and to begin
+                to think critically.
+              </p>
             </DocCell>
             <DocCell className="w-[360px] border-l border-rule p-0 align-middle">
               <div className="p-[22px_22px_14px]">
@@ -60,7 +57,7 @@ export default function Home() {
                 />
               </div>
               <div className="border-t border-rule p-[10px_22px] text-center font-mono text-[10.5px] tracking-[.14em] uppercase text-ink3">
-                P. B. — drawn from life, 2024
+                P.B. - drawn by Ross Eyre
               </div>
             </DocCell>
           </DocRow>
@@ -84,35 +81,40 @@ export default function Home() {
           </DocRow>
           <DocRow>
             <DocCell className="w-[60%]">
-              <Placeholder>
-                <p>
-                  A short overview of the book goes here — two or three
-                  paragraphs. What it is, who it is for, what to expect.
-                </p>
-                <p className="mt-3">
-                  This is also where a defining line from the book can live, set
-                  off as a lead paragraph.
-                </p>
-              </Placeholder>
+              <p className="m-0 font-serif text-[18px] leading-[1.6] text-ink2">
+                This course is meant for you — the thinking student — to
+                invite you to search for the{" "}
+                <em>Pearl of Great Price</em>: that idea that takes you to a
+                new level of thinking.
+              </p>
+              <p className="mt-4 font-serif text-[17px] leading-[1.6] text-ink2">
+                Look for the topic that you are interested in and that will
+                stimulate you. <em>Trust yourself.</em>
+              </p>
+              <p className="mt-4 font-mono text-[11px] tracking-[.14em] uppercase text-ink3">
+                — P. B.
+              </p>
             </DocCell>
             <DocCell className="w-[40%] p-0">
               <table className="w-full border-collapse">
                 <tbody className="font-mono text-ink3">
-                  {[
-                    "Chapters",
-                    "Pages",
-                    "Reading time",
-                    "Problems",
-                    "Published",
-                  ].map((k) => (
+                  {(
+                    [
+                      ["Sections", String(BOOK.sections)],
+                      ["Topics", String(BOOK.topics)],
+                      ["Pages (print)", String(BOOK.pages)],
+                      ["Edition", BOOK.edition],
+                      ["ISBN", BOOK.isbn],
+                    ] as const
+                  ).map(([k, v]) => (
                     <tr key={k}>
                       <td className="border-b border-rule p-[12px_22px]">
                         <span className="font-mono text-[10px] tracking-[.18em] uppercase text-ink">
                           {k}
                         </span>
                       </td>
-                      <td className="border-b border-rule p-[12px_22px] text-right">
-                        —
+                      <td className="border-b border-rule p-[12px_22px] text-right text-ink">
+                        {v}
                       </td>
                     </tr>
                   ))}
