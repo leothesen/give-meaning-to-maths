@@ -3,8 +3,10 @@ export type Chapter = {
   number: string;
   title: string;
   blurb: string;
+  /** Print page range, e.g. "200–222". */
   pages: string;
-  readingTime: string;
+  /** Topic-number range within the book, e.g. "78–89". */
+  topics: string;
 };
 
 export const BOOK = {
@@ -20,17 +22,27 @@ export const BOOK = {
   topics: 181,
   pages: 550,
   chapters: [
-    { slug: "preface", number: "00", title: "Preface", blurb: "Why this book exists, and who it is for.", pages: "iii–viii", readingTime: "6 min" },
-    { slug: "what-is-maths-for", number: "01", title: "What is mathematics for?", blurb: "Beyond the exam paper: a working answer for sceptical teenagers.", pages: "1–18", readingTime: "22 min" },
-    { slug: "the-trouble-with-numbers", number: "02", title: "The trouble with numbers", blurb: "How abstraction trips us up — and how to make it click.", pages: "19–38", readingTime: "25 min" },
-    { slug: "shapes-that-think", number: "03", title: "Shapes that think", blurb: "Geometry as the original visual language.", pages: "39–62", readingTime: "30 min" },
-    { slug: "patterns-and-proof", number: "04", title: "Patterns and proof", blurb: "From a hunch to a watertight argument.", pages: "63–88", readingTime: "32 min" },
-    { slug: "the-classroom-as-workshop", number: "05", title: "The classroom as workshop", blurb: "Notes for teachers — thirty-odd years' worth.", pages: "89–112", readingTime: "28 min" },
-    { slug: "the-grammar-of-algebra", number: "06", title: "The grammar of algebra", blurb: "Why x is not a mystery.", pages: "113–138", readingTime: "34 min" },
-    { slug: "calculus-without-tears", number: "07", title: "Calculus without tears", blurb: "An old teacher's gentlest possible introduction.", pages: "139–168", readingTime: "38 min" },
-    { slug: "problems-worth-doing", number: "08", title: "Problems worth doing", blurb: "Forty problems collected over a lifetime.", pages: "169–198", readingTime: "varies" },
-    { slug: "afterword", number: "09", title: "Afterword", blurb: "A letter to the next teacher.", pages: "199–208", readingTime: "10 min" },
-    { slug: "notes-and-sources", number: "10", title: "Notes & sources", blurb: "Where the ideas came from.", pages: "209–224", readingTime: "8 min" },
+    { slug: "preface", number: "00", title: "Title Page & Foreword", blurb: "How to read this book, and the invitation behind it.", pages: "1–13", topics: "—" },
+    { slug: "developing-perception", number: "01", title: "Developing Perception through Strategic Plans", blurb: "Creating strategies — spotting symmetry and pattern in number and shape, with trial and error as a tactic.", pages: "14–40", topics: "1–10" },
+    { slug: "prime-numbers", number: "02", title: "Seeking the Formula for Prime Numbers", blurb: "A Grade-9 investigation into whether a formula for the primes could ever exist.", pages: "41–65", topics: "11–18" },
+    { slug: "palindromic-dates", number: "03", title: "Palindromic and ‘Missing’ Dates", blurb: "An investigation into unique dates, stretching toward the ideas of Newton and Leibniz.", pages: "66–92", topics: "19–31" },
+    { slug: "patterns-in-numbers", number: "04", title: "Patterns Emerging in Numbers", blurb: "Great patterns by great minds — Gauss, Pascal, Mandelbrot and fractals.", pages: "93–116", topics: "32–43" },
+    { slug: "golden-ratio", number: "05", title: "The Golden Ratio in Numbers and in Shapes", blurb: "The ratio in nature, in the human body, in the pentagon, and in architecture.", pages: "117–148", topics: "44–57" },
+    { slug: "circle-and-pi", number: "06", title: "The Circle and the Story of Pi", blurb: "Investigating the circle and the long story of π.", pages: "149–173", topics: "58–68" },
+    { slug: "trigonometry", number: "07", title: "A Peek at Trigonometric Discoveries", blurb: "A first look at trigonometry and where it came from.", pages: "174–199", topics: "69–77" },
+    { slug: "pythagoras-fermat", number: "08", title: "Pythagoras and Extension to Fermat", blurb: "Pythagoras and his theorem, extended through to Fermat.", pages: "200–222", topics: "78–89" },
+    { slug: "extending-fibonacci", number: "09", title: "Patterns and More Patterns — Extending Fibonacci", blurb: "Extending and inter-relating Pascal and Fibonacci.", pages: "223–235", topics: "90–98" },
+    { slug: "seeking-the-impossible", number: "10", title: "Seeking What Could Be Impossible", blurb: "An intense investigation into the seemingly impossible.", pages: "236–263", topics: "99–109" },
+    { slug: "logical-thinking", number: "11", title: "The Art of Logical Thinking", blurb: "Extending Euclidean thinking — the logic of “if … then”.", pages: "264–282", topics: "110–119" },
+    { slug: "dancing-decimals", number: "12", title: "Bits and Pieces, Fun and Dancing Decimals", blurb: "Fractions, decimals and the surprises hiding inside them.", pages: "283–316", topics: "120–129" },
+    { slug: "thinking-deeper", number: "13", title: "Thinking Deeper As We Advance", blurb: "Deeper thinking as the mathematics advances.", pages: "317–338", topics: "130–137" },
+    { slug: "models-and-architecture", number: "14", title: "Models, Measures and Architecture", blurb: "Modelling and meaning — measure and architecture.", pages: "339–378", topics: "138–146" },
+    { slug: "new-dimensions-in-shape", number: "15", title: "New Dimensions in Shape", blurb: "New dimensions in two-dimensional shapes.", pages: "379–405", topics: "147–153" },
+    { slug: "playing-by-the-rules", number: "16", title: "Playing By The Rules", blurb: "Games, competition, gambling, computerisation and quantum theory.", pages: "406–435", topics: "154–162" },
+    { slug: "three-d-solids", number: "17", title: "3-D Solids — Testing our Ideas", blurb: "Testing our ideas against three-dimensional solids.", pages: "436–499", topics: "163–173" },
+    { slug: "facing-tomorrow", number: "18", title: "Facing Tomorrow’s Tomorrow Today", blurb: "Looking ahead — facing tomorrow’s world today.", pages: "500–517", topics: "174–181" },
+    { slug: "the-contributors", number: "19", title: "The Contributors", blurb: "Thanks to the pupils, artists and proofreaders who shaped the book.", pages: "518–524", topics: "—" },
+    { slug: "graphics-acknowledgements", number: "20", title: "Acknowledgements for the Graphics", blurb: "List of graphics and their attributions.", pages: "525–543", topics: "—" },
   ] satisfies Chapter[],
 } as const;
 

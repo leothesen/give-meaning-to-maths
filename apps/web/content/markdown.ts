@@ -6,17 +6,26 @@ import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 
 const CHAPTERS_DIR = path.join(process.cwd(), "content", "chapters");
 
+// Chapters are pandoc-converted from Peter's .docx files. Pandoc emits complex
+// Word tables (multi-row, image-grid layouts) as raw HTML <table>, which a
+// plain remark-rehype pipeline strips. rehype-raw parses those HTML islands
+// into proper hast nodes so they render alongside the markdown.
 const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkMath)
-  .use(remarkRehype)
-  .use(rehypeKatex)
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
+  // errorColor: render KaTeX parse failures in the surrounding text colour
+  // rather than alarm-red. strict: 'ignore' tolerates Word's quirky OMML
+  // (e.g. `Radians` treated as an unknown function) instead of throwing.
+  .use(rehypeKatex, { errorColor: "currentColor", strict: "ignore" })
   .use(rehypeStringify);
 
 export async function renderChapter(slug: string): Promise<string> {

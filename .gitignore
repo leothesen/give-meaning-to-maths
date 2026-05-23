@@ -10,3 +10,9 @@ test-results
 .DS_Store
 .env*
 !.env.example
+
+# Next.js auto-generated
+next-env.d.ts
+
+# Source .docx originals (ingested into content/chapters; too large for git)
+book-chapters/
