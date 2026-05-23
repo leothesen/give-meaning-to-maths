@@ -1,0 +1,54 @@
+# Verifies the rendered book content on every PR:
+#
+#   - every chapter slug declared in apps/web/content/book.ts has a
+#     corresponding .md file under apps/web/content/chapters/
+#   - every /assets/* image reference in every chapter .md points at a
+#     file that actually exists under apps/web/public/assets/
+#   - apps/web builds cleanly (Next.js static-build smoke test)
+#
+# What this check CANNOT verify, by design: that book-chapters/*.docx is in
+# sync with the rendered content. The .docx files are gitignored (672 MB of
+# source originals) and never reach CI. That freshness check lives in the
+# local pre-push hook (.githooks/pre-push) — opt in once with:
+#
+#   git config core.hooksPath .githooks
+#
+name: verify content
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/content/**"
+      - "apps/web/public/assets/**"
+      - "apps/web/scripts/**"
+      - "apps/web/package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/verify-content.yml"
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify chapter slugs, image refs, no orphans
+        working-directory: apps/web
+        run: pnpm verify:content
+
+      - name: Build (static smoke test)
+        working-directory: apps/web
+        run: pnpm build

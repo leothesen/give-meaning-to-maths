@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Pre-push hook: refuse to push if any chapter .docx has changed but
+# `pnpm ingest:sync` hasn't been run since. Catches the most likely
+# regression (edited a chapter, forgot to re-ingest) before it ships.
+#
+# Opt in once with:
+#   git config core.hooksPath .githooks
+#
+# If you don't have the .docx files locally (e.g. you're a contributor
+# only editing CSS), the check is a no-op — missing .docx are skipped.
+set -e
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT/apps/web"
+if ! pnpm -s ingest:ci; then
+  cat <<MSG
+
+Push refused — content/chapters is stale vs book-chapters/*.docx.
+
+Fix it:
+  cd apps/web
+  pnpm ingest:sync          # re-ingest only the changed chapters
+  git add -A
+  git commit -m "content: re-ingest revised chapter X"
+  git push                  # retry
+
+To skip this check (not recommended), use:  git push --no-verify
+MSG
+  exit 1
+fi

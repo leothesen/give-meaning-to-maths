@@ -38,6 +38,9 @@ const MANIFEST_PATH = path.join(BOOK, ".ingest-manifest.json");
 const flags = new Set(process.argv.slice(2));
 const FORCE_ALL = flags.has("--all") || flags.has("--force");
 const DRY_RUN = flags.has("--dry-run");
+// --ci behaves like --dry-run but exits non-zero when re-ingestion is needed,
+// so a pre-push hook or GitHub Action can fail the push/check on stale state.
+const CI_MODE = flags.has("--ci");
 
 async function sha256(file) {
   const buf = await fs.readFile(file);
@@ -91,8 +94,12 @@ for (const p of planned) {
   console.log(`  - ${p.num} ${p.slug.padEnd(28)} (${reason})`);
 }
 
-if (DRY_RUN) {
-  console.log("\n--dry-run: nothing was changed");
+if (DRY_RUN || CI_MODE) {
+  if (CI_MODE && planned.length) {
+    console.error("\n❌ stale: re-run `pnpm ingest:sync` before pushing.");
+    process.exit(1);
+  }
+  console.log(DRY_RUN ? "\n--dry-run: nothing was changed" : "\n--ci: check passed");
   process.exit(0);
 }
 
