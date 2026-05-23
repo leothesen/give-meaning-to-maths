@@ -8,7 +8,10 @@
     "lint": "eslint .",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "ingest:sync": "node scripts/ingest-sync.mjs",
+    "ingest:all": "node scripts/ingest-sync.mjs --all",
+    "ingest:check": "node scripts/ingest-sync.mjs --dry-run"
   },
   "dependencies": {
     "clsx": "^2.1.1",
