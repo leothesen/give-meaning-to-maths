@@ -1,15 +1,26 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { BOOK, getChapter, chapterNeighbours } from "@/content/book";
 import { renderChapter } from "@/content/markdown";
 import { ChapterToc } from "@/components/chapter-toc";
+import { MobileGate } from "@/components/mobile-gate";
 
 export function generateStaticParams() {
   return BOOK.chapters.map((c) => ({ slug: c.slug }));
 }
 
 export const dynamicParams = false;
+
+// Chapter pages are laid out at a fixed 1080-px width to preserve Peter's
+// print-style formatting (large titles, side-by-side photo+text layouts,
+// custom paragraph positioning). On narrow screens mobile browsers will
+// auto-scale this viewport to fit — shrinking the book — and the MobileGate
+// component overlays a one-time dismissable "best viewed on desktop" notice.
+export const viewport: Viewport = {
+  width: 1080,
+  initialScale: 1,
+};
 
 export async function generateMetadata({
   params,
@@ -34,7 +45,9 @@ export default async function ChapterPage({
   const { prev, next } = chapterNeighbours(ch.slug);
 
   return (
-    <div className="mx-auto grid max-w-[1080px] grid-cols-[280px_1fr] items-start border-x border-rule max-[900px]:grid-cols-1">
+    <>
+      <MobileGate />
+      <div className="mx-auto grid max-w-[1080px] grid-cols-[280px_1fr] items-start border-x border-rule max-[900px]:grid-cols-1">
       <ChapterToc currentSlug={ch.slug} />
       <article className="max-w-[760px] p-[36px_40px_60px] max-[900px]:p-[30px_22px_50px]">
         <p className="m-0 mb-[18px] flex justify-between border-b border-rule pb-[10px] font-mono text-[11px] tracking-[.18em] uppercase">
@@ -82,5 +95,6 @@ export default async function ChapterPage({
         </nav>
       </article>
     </div>
+    </>
   );
 }

@@ -32,7 +32,7 @@ while read -r h; do
     rm "$dup"
     # Rewrite every /assets/<dup> reference in chapter md files to /assets/<keep>
     # Use a portable in-place sed (no -i '' macOS quirks via temp file).
-    for md in "$CHAPTERS"/*.md; do
+    for md in "$CHAPTERS"/*.md "$CHAPTERS"/*.html; do
       if grep -q "/assets/$dup" "$md"; then
         sed "s|/assets/$dup|/assets/$keep|g" "$md" > "$md.tmp" && mv "$md.tmp" "$md"
       fi

@@ -29,6 +29,15 @@ const processor = unified()
   .use(rehypeStringify);
 
 export async function renderChapter(slug: string): Promise<string> {
+  // Prefer pre-rendered .html (richer formatting fidelity) when present;
+  // fall back to the .md + remark pipeline for chapters still on the old
+  // path. Lets us migrate one chapter at a time.
+  const htmlFile = path.join(CHAPTERS_DIR, `${slug}.html`);
+  try {
+    return await fs.readFile(htmlFile, "utf8");
+  } catch (e) {
+    if (e.code !== "ENOENT") throw e;
+  }
   const file = path.join(CHAPTERS_DIR, `${slug}.md`);
   const raw = await fs.readFile(file, "utf8");
   const { content } = matter(raw);

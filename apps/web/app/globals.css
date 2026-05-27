@@ -71,6 +71,12 @@ img.book-img {
 .chapter-prose p + p {
   text-indent: 1.4em;
 }
+/* Don't indent a paragraph whose alignment was explicitly set in the .docx
+   (centered titles, right-aligned blocks, etc.). The inline style[s] win,
+   but text-indent stacks on top of text-align, so suppress it here. */
+.chapter-prose p[style*="text-align"] {
+  text-indent: 0;
+}
 .chapter-prose h2,
 .chapter-prose h3 {
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -97,7 +103,98 @@ img.book-img {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.9em;
 }
+
+.chapter-prose ul,
+.chapter-prose ol {
+  margin: 0.4em 0 1em;
+  padding-left: 1.6em;
+}
+.chapter-prose ul { list-style: disc outside; }
+.chapter-prose ol { list-style: decimal outside; }
+.chapter-prose li { margin-bottom: 0.3em; }
+.chapter-prose li p { margin: 0 0 0.4em; text-indent: 0; }
+/* Images: respect Word's inline width when reasonable (line-art diagrams at
+   their original size read better than shrunk-to-column-width versions). Only
+   clamp when they'd overflow the column or be unreasonably tall. */
+.chapter-prose img {
+  max-width: 100%;
+  max-height: 80vh;
+  height: auto;
+  /* Many of Peter's diagrams are black-on-transparent (e.g. line art exported
+     from EMF) and disappear on the dark theme. Forcing a white card behind
+     every image keeps diagrams legible without affecting photos. */
+  background: #ffffff;
+}
+/* <mark> = Word highlight pen. Most are yellow. Pandoc collapses all colors
+   to plain <mark>; our OOXML extractor preserves the actual color via inline
+   `background: #hex` style on the surrounding <p>. */
+.chapter-prose mark {
+  background: #fff3a3;
+  color: #111;
+  padding: 0 0.15em;
+}
+/* Inline background colour from the OOXML extractor (e.g. green ToC header) —
+   text on a coloured paragraph background needs dark foreground to stay
+   readable on the dark site theme. */
+.chapter-prose p[style*="background"] {
+  color: #111;
+  padding: 0.2em 0.4em;
+}
+
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+/* Mobile gate — one-time informational overlay on chapter pages, shown when
+   the user lands on a narrow screen. The chapter content itself is
+   shrunk-to-fit by a per-route `viewport: { width: 1080 }` meta tag. */
+.mobile-gate {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  /* The overlay sits on the unscaled-viewport layer, so size everything in vw/vh */
+  font-size: 16px;
+}
+.mobile-gate-card {
+  background: var(--paper);
+  color: var(--ink);
+  max-width: 380px;
+  width: 100%;
+  padding: 28px 26px 22px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-family: var(--font-serif), Georgia, serif;
+}
+.mobile-gate-card h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.mobile-gate-card p {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink2);
+}
+.mobile-gate-card button {
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+  padding: 10px 18px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+}
+.mobile-gate-card button:hover {
+  background: var(--ink2);
+}
+

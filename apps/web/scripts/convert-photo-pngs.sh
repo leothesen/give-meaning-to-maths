@@ -33,7 +33,7 @@ for f in "${PNGS[@]}"; do
   out="$base.jpeg"
   if sips -s format jpeg -s formatOptions "$JPEG_Q" "$f" --out "$out" >/dev/null 2>&1; then
     rm "$f"
-    for md in "$CHAPTERS"/*.md; do
+    for md in "$CHAPTERS"/*.md "$CHAPTERS"/*.html; do
       if grep -q "/assets/$f" "$md" 2>/dev/null; then
         sed "s|/assets/$f|/assets/$out|g" "$md" > "$md.tmp" && mv "$md.tmp" "$md"
       fi

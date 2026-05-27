@@ -110,7 +110,7 @@ for (const p of planned) {
   execFileSync(
     "node",
     [
-      path.join(SCRIPTS, "ingest-chapter.mjs"),
+      path.join(SCRIPTS, "ingest-chapter-html.mjs"),
       "--source", p.docxPath,
       "--slug", p.slug,
       "--number", p.num,

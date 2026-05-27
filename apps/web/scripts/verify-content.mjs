@@ -31,18 +31,22 @@ const warnings = [];
 
 // 1. every declared slug has a .md
 for (const slug of declaredSlugs) {
-  try {
-    await fs.stat(path.join(CHAPTERS_DIR, `${slug}.md`));
-  } catch {
-    errors.push(`missing chapter file: content/chapters/${slug}.md (declared in book.ts)`);
+  // Accept either .html (new HTML pipeline) or .md (legacy markdown).
+  let ok = false;
+  try { await fs.stat(path.join(CHAPTERS_DIR, `${slug}.html`)); ok = true; } catch {}
+  if (!ok) {
+    try { await fs.stat(path.join(CHAPTERS_DIR, `${slug}.md`)); ok = true; } catch {}
+  }
+  if (!ok) {
+    errors.push(`missing chapter file: content/chapters/${slug}.{html,md} (declared in book.ts)`);
   }
 }
 
 // 3. no orphan .md files
-const mdFiles = (await fs.readdir(CHAPTERS_DIR)).filter((f) => f.endsWith(".md"));
+const chapterFiles = (await fs.readdir(CHAPTERS_DIR)).filter((f) => /\.(html|md)$/.test(f));
 const declaredSet = new Set(declaredSlugs);
-for (const f of mdFiles) {
-  const slug = f.replace(/\.md$/, "");
+for (const f of chapterFiles) {
+  const slug = f.replace(/\.(html|md)$/, "");
   if (!declaredSet.has(slug)) {
     warnings.push(`orphan chapter file: content/chapters/${f} (not declared in book.ts)`);
   }
@@ -52,7 +56,7 @@ for (const f of mdFiles) {
 const ASSET_REF = /\/assets\/([^\/\s")<>]+\.(?:png|jpe?g|gif|webp|svg|bmp|tiff?))/gi;
 let assetRefsChecked = 0;
 let assetRefsMissing = 0;
-for (const f of mdFiles) {
+for (const f of chapterFiles) {
   const body = await fs.readFile(path.join(CHAPTERS_DIR, f), "utf8");
   for (const m of body.matchAll(ASSET_REF)) {
     assetRefsChecked++;
@@ -68,7 +72,7 @@ for (const f of mdFiles) {
 // Report
 console.log(`verify-content:`);
 console.log(`  declared chapter slugs:   ${declaredSlugs.length}`);
-console.log(`  chapter .md files found:  ${mdFiles.length}`);
+console.log(`  chapter files found:      ${chapterFiles.length}`);
 console.log(`  image refs checked:       ${assetRefsChecked}`);
 console.log(`  image refs broken:        ${assetRefsMissing}`);
 if (warnings.length) {

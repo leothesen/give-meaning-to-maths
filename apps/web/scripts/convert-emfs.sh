@@ -36,7 +36,7 @@ for f in "${EMFS[@]}"; do
     mv "$TMP/$base.png" "$ASSETS/$base.png"
     rm -f "$f"
     # rewrite every reference in every chapter md
-    for md in "$CHAPTERS"/*.md; do
+    for md in "$CHAPTERS"/*.md "$CHAPTERS"/*.html; do
       if grep -q "/assets/$f" "$md" 2>/dev/null; then
         sed "s|/assets/$f|/assets/$base.png|g" "$md" > "$md.tmp" && mv "$md.tmp" "$md"
       fi
