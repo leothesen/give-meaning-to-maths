@@ -63,6 +63,12 @@ img.book-img {
 }
 
 /* Rendered-markdown chapter typography */
+.chapter-prose {
+  /* Long URLs in graphics-acknowledgements would otherwise overflow the
+     1080-px reading column. Break long unbreakable strings between
+     characters rather than letting them push past the column edge. */
+  overflow-wrap: anywhere;
+}
 .chapter-prose p {
   font-size: 19px;
   line-height: 1.62;

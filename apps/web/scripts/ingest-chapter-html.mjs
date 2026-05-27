@@ -263,6 +263,17 @@ function runPatchesFor(props, fontClassFn, highlightMap) {
   return out;
 }
 
+// 5a. Strip a leading numbered-list-artifact paragraph that pandoc sometimes
+// emits before the chapter content (a stray "<p>1</p>", "<p>i</p>", etc.).
+// Detected as: very first <p> with content of just 1-2 short chars surrounded
+// by trivial markup.
+// Match: optional whitespace, <p ...>, any opening tags, 1-2 char numbering
+// (1, 2, i, ii, I, etc.), optional ".", any closing tags, </p>, whitespace.
+html = html.replace(
+  /^\s*<p[^>]*>(?:\s*<[a-z][^>]*>)*\s*[0-9ivxIVX]{1,3}\.?\s*(?:<\/[a-z][^>]*>\s*)*<\/p>\s*/i,
+  ""
+);
+
 // 5b. Inject every paragraph-level style pandoc dropped, matched to the docx
 //     by text fingerprint. Properties merged: alignment, font color, font
 //     size (absolute pt), font-family class (sans/serif/cursive/mono),
